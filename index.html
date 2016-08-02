@@ -1,0 +1,436 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Charlotte de Villiers GEOG 771</title>
+  <link rel="stylesheet" href="stylesheets/styles.css" />
+  <link rel="stylesheet" href="https://d19vzq90twjlae.cloudfront.net/leaflet/v0.7.7/leaflet.css" />
+  <script src="https://d19vzq90twjlae.cloudfront.net/leaflet/v0.7.7/leaflet.js"></script>
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    
+    <!--Image sourced from www.pexels.com-->
+  </head>
+  <body>
+    <h1 class="title">
+	<img src="images/earth.jpeg" alt="Globe Image" style="width:80px;height:80px;align:middle"> Charlotte de Villiers GEOG 771</h1>
+    <p></p>
+  </header>
+  <ul class="tab">
+    <li><a href="#" class="tablinks" onclick="openCity(event, 'Prelab')">Prelab</a></li>
+    <li><a href="#" class="tablinks" onclick="openCity(event, 'Lab1')">Lab2</a></li>
+    <li><a href="#" class="tablinks" onclick="openCity(event, 'Lab2')">Lab3</a></li>
+	<li><a href="#" class="tablinks" onclick="openCity(event, 'Lab3')">Lab4</a></li>
+  </ul>
+
+  <div id="Prelab" class="tabcontent">
+    <h3>PreLab</h3>
+    <p>PreLabMap</p>
+	<div id="mapid" style="width: 600px; height: 400px"></div>
+
+	<script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
+	<script>
+
+		var mymap = L.map('mapid').setView([-36.866, 174.866], 15);
+
+		L.tileLayer('http://korona.geog.uni-heidelberg.de/tiles/roads/x={x}&y={y}&z={z}', {
+			maxZoom: 20,
+			attribution: 'Imagery from <a href="http://giscience.uni-hd.de/">GIScience Research Group @ University of Heidelberg</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+		}).addTo(mymap);
+
+		var crossfieldreserve = {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              174.8669299149788,
+              -36.86435798481678,
+              0
+            ],
+            [
+              174.866925799622,
+              -36.8645871690997,
+              0
+            ],
+            [
+              174.8668779927878,
+              -36.86476477281445,
+              0
+            ],
+            [
+              174.8668627251193,
+              -36.86498375071798,
+              0
+            ],
+            [
+              174.866797458923,
+              -36.86515708859805,
+              0
+            ],
+            [
+              174.8666945023803,
+              -36.86528744593115,
+              0
+            ],
+            [
+              174.866571982679,
+              -36.86541923500479,
+              0
+            ],
+            [
+              174.8664093224825,
+              -36.86548956137122,
+              0
+            ],
+            [
+              174.866260094992,
+              -36.86554943978371,
+              0
+            ],
+            [
+              174.8660226066459,
+              -36.86571921144328,
+              0
+            ],
+            [
+              174.8657720803125,
+              -36.86582865184428,
+              0
+            ],
+            [
+              174.8655682513484,
+              -36.86586273606422,
+              0
+            ],
+            [
+              174.8653038425004,
+              -36.86593019016822,
+              0
+            ],
+            [
+              174.8651297396424,
+              -36.86598640990837,
+              0
+            ],
+            [
+              174.8649543818483,
+              -36.86605065500861,
+              0
+            ],
+            [
+              174.8647073821152,
+              -36.86608078188701,
+              0
+            ],
+            [
+              174.8644068978143,
+              -36.86618628103071,
+              0
+            ],
+            [
+              174.8641389577281,
+              -36.86629426265295,
+              0
+            ],
+            [
+              174.8638686639966,
+              -36.86638963123082,
+              0
+            ],
+            [
+              174.8635149817383,
+              -36.86650947847704,
+              0
+            ],
+            [
+              174.8631930124579,
+              -36.86658692995363,
+              0
+            ],
+            [
+              174.8629752395954,
+              -36.86663316309507,
+              0
+            ],
+            [
+              174.8627182438445,
+              -36.86673296469468,
+              0
+            ],
+            [
+              174.862418837357,
+              -36.86678168063969,
+              0
+            ],
+            [
+              174.862426481115,
+              -36.86690981330244,
+              0
+            ],
+            [
+              174.8625133410861,
+              -36.86704819069033,
+              0
+            ],
+            [
+              174.8625996723944,
+              -36.86717209412124,
+              0
+            ],
+            [
+              174.8626850371351,
+              -36.86726699084137,
+              0
+            ],
+            [
+              174.8627973257158,
+              -36.86734158856266,
+              0
+            ],
+            [
+              174.8629238250398,
+              -36.86740809926731,
+              0
+            ],
+            [
+              174.8631148119697,
+              -36.86740308326692,
+              0
+            ],
+            [
+              174.8632635609142,
+              -36.86743506379391,
+              0
+            ],
+            [
+              174.8636670973172,
+              -36.86746634069593,
+              0
+            ],
+            [
+              174.8640030841481,
+              -36.86744419853882,
+              0
+            ],
+            [
+              174.8642745180653,
+              -36.86745544386917,
+              0
+            ],
+            [
+              174.8645233370089,
+              -36.86742848016062,
+              0
+            ],
+            [
+              174.8647761897948,
+              -36.86746736883119,
+              0
+            ],
+            [
+              174.8649303799813,
+              -36.86747674801002,
+              0
+            ],
+            [
+              174.8651552966804,
+              -36.86751307928954,
+              0
+            ],
+            [
+              174.865307114355,
+              -36.86752264391352,
+              0
+            ],
+            [
+              174.8655429262061,
+              -36.86757352605797,
+              0
+            ],
+            [
+              174.8656218562708,
+              -36.86755999525881,
+              0
+            ],
+            [
+              174.8657357820293,
+              -36.86756032564576,
+              0
+            ],
+            [
+              174.865881500439,
+              -36.86742457196058,
+              0
+            ],
+            [
+              174.8661284017959,
+              -36.86731646642713,
+              0
+            ],
+            [
+              174.8663404746827,
+              -36.86722935637508,
+              0
+            ],
+            [
+              174.8665925317914,
+              -36.86712586334338,
+              0
+            ],
+            [
+              174.8668190118953,
+              -36.86699320379184,
+              0
+            ],
+            [
+              174.8671751412936,
+              -36.86687284744306,
+              0
+            ],
+            [
+              174.8673610980361,
+              -36.86675254490898,
+              0
+            ],
+            [
+              174.8675981765231,
+              -36.86666547757704,
+              0
+            ],
+            [
+              174.8677805265008,
+              -36.86652788954186,
+              0
+            ],
+            [
+              174.8679816818684,
+              -36.86644506504882,
+              0
+            ],
+            [
+              174.8680619794977,
+              -36.86623033020958,
+              0
+            ],
+            [
+              174.8680566175022,
+              -36.86609125919541,
+              0
+            ],
+            [
+              174.8682213663285,
+              -36.86597006826593,
+              0
+            ],
+            [
+              174.8683703440917,
+              -36.86584361117441,
+              0
+            ],
+            [
+              174.8683519611337,
+              -36.8656603320274,
+              0
+            ],
+            [
+              174.8683009073892,
+              -36.86527628894012,
+              0
+            ],
+            [
+              174.868118490165,
+              -36.86486336258377,
+              0
+            ],
+            [
+              174.8679678206819,
+              -36.86433484970053,
+              0
+            ],
+            [
+              174.8679452051208,
+              -36.86411151983538,
+              0
+            ],
+            [
+              174.867862900842,
+              -36.86405458911491,
+              0
+            ],
+            [
+              174.8668940759987,
+              -36.86419793084768,
+              0
+            ],
+            [
+              174.8669299149788,
+              -36.86435798481678,
+              0
+            ]
+          ]
+        ]
+		}
+      };
+	  
+L.geoJson(crossfieldreserve, {
+	color: "#ff6600", fillOpacity: "0.6"}
+).addTo(mymap);
+
+L.marker([-36.867, 174.865]).addTo(mymap);
+
+var popup = L.popup()
+    .setLatLng([-36.866, 174.865])
+    .setContent('<p><i>Crossfield Reserve : )</i></p>')
+    .openOn(mymap);
+
+	</script>
+  </div>
+
+  <div id="Lab1" class="tabcontent" style="display:none">
+    <h3>Lab2</h3>
+    <p>Map2</p>
+	<div id="map2"></div>
+	<script>
+   
+	</script>
+  </div>
+
+  <div id="Lab2" class="tabcontent" style="display:none">
+    <h3>Lab3</h3>
+    <p>Map3</p>
+	<div id="map3"></div>
+	<script>
+   
+	</script>
+  </div>
+
+  <div id="Lab3" class="tabcontent" style="display:none">
+    <h3>Lab4</h3>
+    <p>Map4</p>
+	<div id="map4"></div>
+	<script>
+   
+	</script>
+  </div>
+  
+  <script>
+function openCity(evt, cityName) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+    document.getElementById(cityName).style.display = "block";
+    evt.currentTarget.className += " active";
+}
+</script>
+  
+</body>
+</html>
