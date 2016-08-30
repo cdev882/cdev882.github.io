@@ -407,18 +407,23 @@ var popup = L.popup()
   <div id="Lab2" class="tabcontent" style="display:none">
     <h3>Map3</h3>
     <p>Map3</p>
-	<div id="map3"></div>
-	<script>
-   
-	</script>
-  </div>
+    <div id='map3' style='width: 1000px; height: 1000px;'></div>
+    <script>	
+    mapboxgl.accessToken = 'pk.eyJ1IjoiY2Rldjg4MiIsImEiOiJjaXJ3cnlvb3cwMDB4MnpvZjl4d283bmp6In0.k71TZCIS-YdxGMDq41-Yzg';
+    	var ma3p = new mapboxgl.Map({
+	container: 'map3',
+	style: 'mapbox://styles/cdev882/cis6sqjgp000igslwrlddw15t',
+	zoom: 0.0
+	});
+    </script>
+    </div>
 
   <div id="Lab3" class="tabcontent" style="display:none">
     <h3>Map4</h3>
     <p>Map4</p>
 	<div id="map4"></div>
 	<script>
-   
+   	
 	</script>
   </div>
   
