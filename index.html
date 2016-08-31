@@ -20,6 +20,13 @@
     
   </head>
   <body>
+  <style>
+    .mapboxgl-popup {
+        max-width: 400px;
+        font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+    }
+</style>	
+  	
     <h1 class="title">
 	<img src="images/earth.jpeg" alt="Globe Image" style="width:80px;height:80px;align:middle"> Charlotte de Villiers GEOG 771</h1>
     <p></p>
@@ -420,7 +427,206 @@ var popup = L.popup()
 	zoom: 0.0
 	});
     </script>
+    
     </div>
+    
+<div id='maphi' style='width: 1000px; height: 1000px;'></div>
+<script>
+mapboxgl.accessToken = 'pk.eyJ1IjoiY2Rldjg4MiIsImEiOiJjaXJ3cnlvb3cwMDB4MnpvZjl4d283bmp6In0.k71TZCIS-YdxGMDq41-Yzg';
+	var maphi = new mapboxgl.Map({
+	container: 'maphi',
+	style: 'mapbox://styles/cdev882/cisi2r5bi002n2xv0s2q3eikw',
+	center: [-185.808673, -41.231808], // starting position
+    zoom: 5.2 // starting zoom
+	
+	});
+
+	
+maphi.on('load', function () {
+
+    maphi.addSource('greatwalks', {
+        type: 'vector',
+        url: 'cdev882.8d5u940w'
+    });
+    maphi.addLayer({
+        id: 'greatwalksid',
+        type: 'fill',
+        source: 'greatwalks',
+        'source-layer': 'greatwalksid',
+        paint: {
+            'fill-color': 'rgba(61,153,80,0.55)'
+        }
+    });
+
+	
+	maphi.addSource("markers", { // id / name of the source – user defined, but ‘markers’ makes sense
+	"type": "geojson",
+	"data": {
+	  "type": "FeatureCollection",
+	  "features": [
+			{
+		  "type": "Feature",
+		  "properties": {
+			"marker-symbol": "marker-pink",
+			"title": "Round the Mountain Track"
+		  },
+		  "geometry": {
+			"type": "Point",
+			"coordinates": [
+			  175.53955078125,
+			  -39.334297429807236
+			]
+		  }
+		},
+		{
+		  "type": "Feature",
+		  "properties": {
+			"marker-symbol": "marker-pink",
+			"title": "Whanganui River"
+		  },
+		  "geometry": {
+			"type": "Point",
+			"coordinates": [
+			  175.1385498046875,
+			  -39.724088577333696
+			]
+		  }
+		},
+		{
+		  "type": "Feature",
+		  "properties": {
+			"marker-symbol": "marker-pink",
+			"title": "Lake Waikaremoana Great Walk"
+		  },
+		  "geometry": {
+			"type": "Point",
+			"coordinates": [
+			  177.00073242187497,
+			  -38.81403111409756
+			]
+		  }
+		},
+		{
+		  "type": "Feature",
+		  "properties": {
+			"marker-symbol": "marker-pink",
+			"title": "Abel Tasman Coast Track"
+		  },
+		  "geometry": {
+			"type": "Point",
+			"coordinates": [
+			  173.0466,
+			  -40.8883
+			]
+		  }
+		},
+		{
+		  "type": "Feature",
+		  "properties": {
+			"marker-symbol": "marker-pink",
+			"title": "Heaphy Track"
+		  },
+		  "geometry": {
+			"type": "Point",
+			"coordinates": [
+			  172.1612548828125,
+			  -40.91766362458113
+			]
+		  }
+		},
+		{
+		  "type": "Feature",
+		  "properties": {
+			"marker-symbol": "marker-pink",
+			"title": "Routeburn Track"
+		  },
+		  "geometry": {
+			"type": "Point",
+			"coordinates": [
+			  168.17596435546875,
+			  -44.73112559264325
+			]
+		  }
+		},
+		{
+		  "type": "Feature",
+		  "properties": {
+			"marker-symbol": "marker-pink",
+			"title": "Milford Track"
+		  },
+		  "geometry": {
+			"type": "Point",
+			"coordinates": [
+			  167.79144287109375,
+			  -44.828604269555676
+			]
+		  }
+		},
+		{
+		  "type": "Feature",
+		  "properties": {
+			"marker-symbol": "marker-pink",
+			"title": "Kepler Track"
+		  },
+		  "geometry": {
+			"type": "Point",
+			"coordinates": [
+			  167.62115478515625,
+			  -45.39266395850031
+			]
+		  }
+		},
+		{
+		  "type": "Feature",
+		  "properties": {
+			"marker-symbol": "marker-pink",
+			"title": "Rakiura Track"
+		  },
+		  "geometry": {
+			"type": "Point",
+			"coordinates": [
+			  168.0583,
+			  -46.8638
+			]
+      }
+    }
+  ]
+}
+	});
+	
+	maphi.addLayer({
+	"id": "markers", // name of your new layer
+	"type": "symbol",
+	"source": "markers", // id / name of the geojson source you added above
+	"layout": {
+		"icon-image": "marker-pink", // *see detailed comments in window below
+		"text-field": "{title}",
+		"text-font": ["Open Sans Semibold", "Arial Unicode MS Bold"],
+		"text-offset": [0, 0.6],
+		"text-size": 10,
+		"text-anchor": "top" 
+	}
+	});
+
+});
+
+maphi.on('mousemove', function (e) {
+	var features = maphi.queryRenderedFeatures(e.point, { layers: ['markers'] });
+	maphi.getCanvas().style.cursor = features.length ? 'pointer' : '';
+});
+
+maphi.on('click', function (e) {
+	var features = maphi.queryRenderedFeatures(e.point, { layers: ['markers'] });
+	if (features.length) {
+		maphi.flyTo({center: features[0].geometry.coordinates, zoom: 10});
+		var popup = new mapboxgl.Popup()
+			.setLngLat(features[0].geometry.coordinates)
+			.setHTML(features[0].properties.title)
+			.addTo(maphi);	
+}
+
+});
+</script>
 
   <div id="Lab3" class="tabcontent" style="display:none">
     <h3>Map4</h3>
