@@ -18,36 +18,7 @@
   <script src='https://api.mapbox.com/mapbox-gl-js/v0.18.0/mapbox-gl.js'></script>
   <link href='https://api.mapbox.com/mapbox-gl-js/v0.18.0/mapbox-gl.css' rel='stylesheet' />
     
-	
-	
-  	<style>
-	.info {
-	padding: 0px; // specify the number of pixels
-	font: 0px font, sans-serif; // font = font name (e.g., Arial, Helvetica, etc.)
-	background: white;
-	background: rgba(255,255,255,0.8); // rgba = “alpha coulor space” notation where
-	box-shadow: 0 0 15px rgba(0,0,0,0.2); “a” designates opacity (1.0)
-	border-radius: 0px;
-	}
-	.info h4 {
-	margin: 0 0 0px;
-	color: #000; // colour can be specified either as hex value or rgba
-	}
-	
-	.legend {
-	text-align: left;
-	line-height: 18px;
-	color: #555;
-	}
-	
-	.legend i {
-	width: 30px;
-	height: 18px;
-	float: left;
-	margin-right: 8px;
-	opacity: 0.7;
-	}	
-	</style>
+
   </head>
   <body>
   <style>
@@ -662,120 +633,12 @@ maphi.on('click', function (e) {
 </div>
   <div id="Lab3" class="tabcontent" style="display:none">
     <h3>Map4</h3>
-    <p>Map4</p>
+    <p>This interactive hexbin map shows the density of structural fires in Auckland over a period of 36 months between January 2013 - June 30 2016</p>
 	<div id="map4" style="width: 800px; height: 600px"></div>
 <script type="text/javascript" src="javascripts/firesHexGeoJSON.js"></script>
 	<script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
 	<script>
-		
-		var map4 = L.map('mapid').setView([-36.91528, 174.8944], 10);
-		L.geoJson(hex).addTo(map4);
-		L.tileLayer('http://{s}.tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png', {
-		maxZoom: 18,
-		attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>' +
-					'|Imagery © <a href="http://mapbox.com">Mapbox</a>' + 
-					'|Fire data © <a href=http://www.fire.org.nz/>2016 New Zealand</a>',
-				id: 'mapbox.streets'
-			}).addTo(map4);
-
-		
-		var geojson;
-// event listeners go here – see next steps
-
-		function highlightFeature(e) { // (e) = event
-			var layer = e.target;
-			layer.setStyle({ // you must change the default style
-			weight: 5,
-			color: '#666',
-			dashArray: '',
-			fillOpacity: 0.7
-			});
-			if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
-			layer.bringToFront();
-			}
-			info.update(layer.feature.properties);
-		}
-
-		function resetHighlight(e) {
-			geojson.resetStyle(e.target);
-			info.update();
-		}
-		
-		function onEachFeature(feature, layer) {
-			layer.on({
-			mouseover: highlightFeature, 
-			mouseout: resetHighlight,
-			});
-		}
-		
-		L.geoJson(hex, {style: style}).addTo(map4);
-		
-		geojson = L.geoJson(hex, {style: style, onEachFeature:onEachFeature}).addTo(map4)
-		
-		
-		function style(feature) {
-			return {
-			fillColor: getColor(feature.properties.PNTCNT),
-			weight: 2,
-			opacity: 1,
-			color: 'white',
-			fillOpacity: 0.7
-			};
-		}
-		
-		function getColor(d) {
-			return d >= 60 ? '#94005b' :
-			d >= 30 ? '#aa1523' :
-			d >= 25 ? '#c11523' :
-			d >= 17 ? '#f14222' :
-			d >= 13 ? '#f5602c' :
-			d >= 10 ? '#fa7e36' :
-			d >= 8 ? '#fd9841' :
-			d >= 6 ? '#fdaf4d' :
-			d >= 4 ? '#fdc659' :
-			d >= 2 ? '#fed973' :
-			d >= 1 ? '#feec92' :
-			'#d2d2d2';
-		}
-		
-		var info = L.control();
-		
-		info.onAdd = function (map) {
-			this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
-			this.update();
-			return this._div;
-		};
-		
-		info.update = function (props) {
-			this._div.innerHTML = '<h4>Number of structural fires reported:</h4>' + (props ?
-			 + props.PNTCNT + ' fires'
-			: 'Hover over a hexbin to view');
-		};
-
-		info.addTo(map4);
-		
-		var legend = L.control({position: 'bottomright'});
-		legend.onAdd = function (map) {
-		var div = L.DomUtil.create('div', 'info legend'),
-		grades = [-1,0,2,4,6,8,10,13,17,25,30,60], // these are your class breaks
-		key_labels = ["0", "0-2", "2-4","4-6","6-8","8-10","10-13","13-17","17-25","25-30","30-60","60-100"], // what you want your classes labeled
-		labels = ["Structural Fire Incidents"],
-		from, to;
-		// loop through our density intervals and generate a label with a colored square for each interval:
-		for (var i = 0; i < grades.length; i++) {
-		from = grades[i];
-		to = grades[i + 1];
-		labels.push(
-		'<i style="background:' + getColor(from + 1) + '"></i> ' +
-		key_labels[i]);
-		}
-		div.innerHTML = labels.join('<br>');
-		return div;
-		};
-		legend.addTo(map4);
-		
-		
-	</script>
+	
   </div>
   
   <script>
