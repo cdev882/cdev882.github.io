@@ -65,9 +65,10 @@
     <li><a href="#" class="tablinks" onclick="openCity(event, 'Lab1')">Lab2</a></li>
     <li><a href="#" class="tablinks" onclick="openCity(event, 'Lab2')">Lab3</a></li>
 	<li><a href="#" class="tablinks" onclick="openCity(event, 'Lab3')">Lab4</a></li>
+	<li><a href="#" class="tablinks" onclick="openCity(event, 'Lab4')">Lab5</a></li>
   </ul>
 
-  <div id="Prelab" class="tabcontent">
+  <div id="Prelab" class="tabcontent" style="margin:auto;">
       <h3>Map1</h3>
     <p>This simple interactive digital map was created using the JavaScript map library Leaflet, and GeoJSON</p>
 	<div id="mapid" style="margin:auto; width: 1600px; height: 800px"></div>
@@ -433,7 +434,7 @@ var popup = L.popup()
 
   </div>
 
-<div id="Lab1" class="tabcontent" style="display:none">
+<div id="Lab1" style="margin:auto;" class="tabcontent" style="display:none">
     <h3>Map2</h3>
     <p>This time-series web map of road collisions involving cyclists was created using Carto</p>
 	<div id="map2" style="margin:auto; width: 1600px; height: 800px">
@@ -680,11 +681,13 @@ function openCity(evt, cityName) {
 	
 </div>
   <div id="Lab3" style="margin:auto;" class="tabcontent" style="display:none">
+  
 
      <h3>Map4</h3>
     <p>This interactive hexbin map shows the density of structural fires in Auckland over a period of 36 months between January 2013 - June 30 2016</p>
 	<div id="map4" style="width: 1600px; height: 800px"></div>
 	<script type="text/javascript" src="javascripts/firesHexGeoJSON.js"></script>
+
 	<script>
 	var map4 = L.map('map4').setView([-36.91528, 174.8944], 10);
 		
@@ -699,7 +702,29 @@ function openCity(evt, cityName) {
 		
 
 		
-		var geojson;
+		
+	</script> 
+
+  </div>
+
+  <div id="Lab4" style="margin:auto;" class="tabcontent" style="display:none">
+   <h3>Map5</h3>
+   <p>This is a test</p>
+  <div id="map5" style="width: 1600px; height: 800px; margin:auto;"></div>
+	<script type="text/javascript" src="javascripts/tweetshexbins.js"></script>
+	<script>
+	var map5 = L.map('map5').setView([-40.91528, 170.8944], 6);
+		
+		L.geoJson(tweet).addTo(map5);
+		L.tileLayer('http://{s}.tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png', {
+		maxZoom: 18,
+		attribution: '<a href="https://twitter.com/mattzook">@mattzook</a>' +
+					'| <a href="http://www.floatingsheep.org/">FloatingSheep</a>' + 
+					'| <a href=http://www.floatingsheep.org/p/dolly.html/>Dolly</a>',
+				id: 'mapboxmapbox.streets'
+			}).addTo(map5);
+		
+var geojson;
 // event listeners go here – see next steps
 
 		function highlightFeature(e) { // (e) = event
@@ -728,75 +753,64 @@ function openCity(evt, cityName) {
 			});
 		}
 		
-		L.geoJson(hex, {style: style}).addTo(map4);
+		L.geoJson(tweet, {style: style}).addTo(map5);
 		
-		geojson = L.geoJson(hex, {style: style, onEachFeature:onEachFeature}).addTo(map4)
+		geojson = L.geoJson(tweet, {style: style, onEachFeature:onEachFeature}).addTo(map5)
 		
 		
 		function style(feature) {
 			return {
-			fillColor: getColor(feature.properties.PNTCNT),
+			fillColor: getColor(feature.properties.LQ,feature.properties.shplocqt,feature.properties.pizlocqt, feature.properties.Sheepcount, feature.properties.Pizzacount),
 			weight: 2,
 			opacity: 1,
 			color: 'white',
-			fillOpacity: 0.7
+			fillOpacity: getOpacity(getColor(feature.properties.LQ,feature.properties.shplocqt,feature.properties.pizlocqt, feature.properties.Sheepcount, feature.properties.Pizzacount))
 			};
 		}
 		
-		function getColor(d) {
-			return d >= 60 ? '#94005b' :
-			d >= 30 ? '#aa1523' :
-			d >= 25 ? '#c11523' :
-			d >= 17 ? '#f14222' :
-			d >= 13 ? '#f5602c' :
-			d >= 10 ? '#fa7e36' :
-			d >= 8 ? '#fd9841' :
-			d >= 6 ? '#fdaf4d' :
-			d >= 4 ? '#fdc659' :
-			d >= 2 ? '#fed973' :
-			d >= 1 ? '#feec92' :
-			'#d2d2d2';
+		function getColor(LQ,shplocqt,pizlocqt, Sheepcount, Pizzacount) {
+			return 	LQ > 1 ? '#e7d3ce' :
+			LQ == '0.0' ? '#0a5ae1':
+			(shplocqt == pizlocqt) ? '#fdbf6f':
+			LQ < 1 ? '#e65c00':
+			'#989ca8';
 		}
 		
-		var info = L.control();
+		function getNewColor(New) {
+			return 	New > 1 ? '#0a5ae1' :
+			New > 0 ? '#e65c00' :
+			'#e7d3ce';
+		}
 		
-		info.onAdd = function (map) {
-			this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
-			this.update();
-			return this._div;
-		};
-		
-		info.update = function (props) {
-			this._div.innerHTML = '<h4>Number of structural fires reported:</h4>' + (props ?
-			 + props.PNTCNT + ' fires'
-			: 'Hover over a hexbin to view');
-		};
-
-		info.addTo(map4);
+		function getOpacity(color){
+			return color == '#0a5ae1' ? '0.3':
+			'0.7';
+		}
 		
 		var legend = L.control({position: 'bottomright'});
 		legend.onAdd = function (map) {
 		var div = L.DomUtil.create('div', 'info legend'),
-		grades = [-1,0,2,4,6,8,10,13,17,25,30,60], // these are your class breaks
-		key_labels = ["0", "0-2", "2-4","4-6","6-8","8-10","10-13","13-17","17-25","25-30","30-60","60-100"], // what you want your classes labeled
-		labels = ["Structural Fire Incidents"],
+		grades = [0,1,2], // these are your class breaks
+		key_labels = ["More Sheep Tweets relative to Pizza Tweets", "More Pizza Tweets relative to Sheep Tweets", "No Tweets about Sheep or Pizza"], // what you want your classes labeled
+		labels = ["Relative Tweet Densities"],
+		
 		from, to;
 		// loop through our density intervals and generate a label with a colored square for each interval:
 		for (var i = 0; i < grades.length; i++) {
 		from = grades[i];
 		to = grades[i + 1];
 		labels.push(
-		'<i style="background:' + getColor(from + 1) + '"></i> ' +
+		'<i style="background:' + getNewColor(from) + '"></i> ' +
 		key_labels[i]);
 		}
 		div.innerHTML = labels.join('<br>');
 		return div;
 		};
-		legend.addTo(map4);
+		
+		legend.addTo(map5);
 		
 		
 	</script> 
-
-  
-</body>
+  </div>
+  </body>
 </html>
