@@ -680,14 +680,12 @@ function openCity(evt, cityName) {
 	
 	
 </div>
-  <div id="Lab3" style="margin:auto;" class="tabcontent" style="display:none">
-  
+   <div id="Lab3" style="margin:auto;" class="tabcontent" style="display:none">
 
      <h3>Map4</h3>
     <p>This interactive hexbin map shows the density of structural fires in Auckland over a period of 36 months between January 2013 - June 30 2016</p>
 	<div id="map4" style="width: 1600px; height: 800px"></div>
 	<script type="text/javascript" src="javascripts/firesHexGeoJSON.js"></script>
-
 	<script>
 	var map4 = L.map('map4').setView([-36.91528, 174.8944], 10);
 		
@@ -702,14 +700,107 @@ function openCity(evt, cityName) {
 		
 
 		
+		var geojson;
+// event listeners go here – see next steps
+
+		function highlightFeature(e) { // (e) = event
+			var layer = e.target;
+			layer.setStyle({ // you must change the default style
+			weight: 5,
+			color: '#666',
+			dashArray: '',
+			fillOpacity: 0.7
+			});
+			if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+			layer.bringToFront();
+			}
+			info.update(layer.feature.properties);
+		}
+
+		function resetHighlight(e) {
+			geojson.resetStyle(e.target);
+			info.update();
+		}
+		
+		function onEachFeature(feature, layer) {
+			layer.on({
+			mouseover: highlightFeature, 
+			mouseout: resetHighlight,
+			});
+		}
+		
+		L.geoJson(hex, {style: style}).addTo(map4);
+		
+		geojson = L.geoJson(hex, {style: style, onEachFeature:onEachFeature}).addTo(map4)
+		
+		
+		function style(feature) {
+			return {
+			fillColor: getColor(feature.properties.PNTCNT),
+			weight: 2,
+			opacity: 1,
+			color: 'white',
+			fillOpacity: 0.7
+			};
+		}
+		
+		function getColor(d) {
+			return d >= 60 ? '#94005b' :
+			d >= 30 ? '#aa1523' :
+			d >= 25 ? '#c11523' :
+			d >= 17 ? '#f14222' :
+			d >= 13 ? '#f5602c' :
+			d >= 10 ? '#fa7e36' :
+			d >= 8 ? '#fd9841' :
+			d >= 6 ? '#fdaf4d' :
+			d >= 4 ? '#fdc659' :
+			d >= 2 ? '#fed973' :
+			d >= 1 ? '#feec92' :
+			'#d2d2d2';
+		}
+		
+		var info = L.control();
+		
+		info.onAdd = function (map) {
+			this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
+			this.update();
+			return this._div;
+		};
+		
+		info.update = function (props) {
+			this._div.innerHTML = '<h4>Number of structural fires reported:</h4>' + (props ?
+			 + props.PNTCNT + ' fires'
+			: 'Hover over a hexbin to view');
+		};
+
+		info.addTo(map4);
+		
+		var legend = L.control({position: 'bottomright'});
+		legend.onAdd = function (map) {
+		var div = L.DomUtil.create('div', 'info legend'),
+		grades = [-1,0,2,4,6,8,10,13,17,25,30,60], // these are your class breaks
+		key_labels = ["0", "0-2", "2-4","4-6","6-8","8-10","10-13","13-17","17-25","25-30","30-60","60-100"], // what you want your classes labeled
+		labels = ["Structural Fire Incidents"],
+		from, to;
+		// loop through our density intervals and generate a label with a colored square for each interval:
+		for (var i = 0; i < grades.length; i++) {
+		from = grades[i];
+		to = grades[i + 1];
+		labels.push(
+		'<i style="background:' + getColor(from + 1) + '"></i> ' +
+		key_labels[i]);
+		}
+		
+		div.innerHTML = labels.join('<br>');
+		return div;
+		};
+		legend.addTo(map4);
+		
 		
 	</script> 
-
-  </div>
-
   <div id="Lab4" style="margin:auto;" class="tabcontent" style="display:none">
    <h3>Map5</h3>
-   <p>This is a test</p>
+   <p>This map shows the relative densities of tweets about sheep and pizza in New Zealand.</p>
   <div id="map5" style="width: 1600px; height: 800px; margin:auto;"></div>
 	<script type="text/javascript" src="javascripts/tweetshexbins.js"></script>
 	<script>
